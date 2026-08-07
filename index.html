@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sambana Manoj Kumar | DevOps & Cloud Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0F14;
+    --panel:#121821;
+    --panel-2:#0F141B;
+    --border:#1E2630;
+    --border-soft:#171F29;
+    --text:#E8ECEE;
+    --muted:#8B98A5;
+    --dim:#5B6672;
+    --mint:#3DDC97;
+    --mint-dim:#2A9E6C;
+    --amber:#F2B84B;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'Inter', -apple-system, sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(var(--border-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.35;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+
+  a{color:inherit;text-decoration:none;}
+
+  /* ---------- top bar ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,15,20,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1080px;margin:0 auto;
+  }
+  .prompt{
+    font-family:var(--mono);font-size:13px;color:var(--mint);
+    display:flex;align-items:center;gap:8px;
+  }
+  .prompt .caret{
+    display:inline-block;width:8px;height:14px;background:var(--mint);
+    animation:blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  nav{display:flex;gap:28px;font-family:var(--mono);font-size:13px;color:var(--muted);}
+  nav a{position:relative;padding:2px 0;transition:color .15s;}
+  nav a:hover{color:var(--text);}
+  nav a::before{content:'--';color:var(--dim);margin-right:2px;}
+  .clock{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:0.02em;white-space:nowrap;}
+  .nav-toggle{display:none;}
+
+  @media (max-width:760px){
+    nav{display:none;}
+    .clock{display:none;}
+  }
+
+  /* ---------- hero / status board ---------- */
+  .hero{padding:72px 0 48px;}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;color:var(--mint);
+    letter-spacing:0.12em;text-transform:uppercase;
+    display:flex;align-items:center;gap:8px;margin-bottom:18px;
+  }
+  .dot{
+    width:7px;height:7px;border-radius:50%;background:var(--mint);
+    box-shadow:0 0 0 0 rgba(61,220,151,0.6);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(61,220,151,0.55);}
+    70%{box-shadow:0 0 0 7px rgba(61,220,151,0);}
+    100%{box-shadow:0 0 0 0 rgba(61,220,151,0);}
+  }
+  h1{
+    font-family:var(--mono);font-weight:600;
+    font-size:clamp(30px,5vw,52px);
+    letter-spacing:-0.01em;
+    color:var(--text);
+    margin-bottom:10px;
+  }
+  .role-line{
+    font-size:17px;color:var(--muted);margin-bottom:26px;max-width:640px;
+  }
+  .role-line strong{color:var(--text);font-weight:600;}
+
+  .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px;}
+  .pill{
+    font-family:var(--mono);font-size:12px;color:var(--muted);
+    border:1px solid var(--border);background:var(--panel);
+    padding:6px 12px;border-radius:4px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .pill .dot{width:5px;height:5px;}
+
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:56px;}
+  .btn{
+    font-family:var(--mono);font-size:13px;font-weight:500;
+    padding:11px 18px;border-radius:4px;border:1px solid var(--border);
+    display:inline-flex;align-items:center;gap:8px;
+    transition:border-color .15s, transform .15s, background .15s;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--mint);color:#08110D;border-color:var(--mint);}
+  .btn-primary:hover{background:#4EE8A6;}
+  .btn-ghost{background:var(--panel);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--mint-dim);}
+
+  /* status grid */
+  .status-board{
+    border:1px solid var(--border);border-radius:6px;
+    background:var(--panel);overflow:hidden;
+  }
+  .status-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 18px;border-bottom:1px solid var(--border);
+    font-family:var(--mono);font-size:12px;color:var(--dim);
+  }
+  .status-head .live{color:var(--mint);display:flex;align-items:center;gap:6px;}
+  .status-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);
+  }
+  @media (max-width:700px){.status-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:460px){.status-grid{grid-template-columns:1fr;}}
+  .status-tile{
+    padding:18px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+    transition:background .15s;
+  }
+  .status-tile:hover{background:var(--panel-2);}
+  .status-grid .status-tile:nth-child(3n){border-right:none;}
+  .status-tile .t-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .t-name{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text);}
+  .t-status{font-family:var(--mono);font-size:10px;color:var(--mint);letter-spacing:0.06em;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+  .t-status .dot{width:5px;height:5px;}
+  .t-desc{font-size:12.5px;color:var(--muted);line-height:1.5;}
+
+  /* ---------- section shell ---------- */
+  section{padding:64px 0;border-top:1px solid var(--border-soft);}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:32px;}
+  .sec-tag{font-family:var(--mono);font-size:12px;color:var(--dim);}
+  .sec-title{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--text);}
+
+  /* ---------- about ---------- */
+  .readme{
+    border:1px solid var(--border);border-radius:6px;background:var(--panel);
+    overflow:hidden;
+  }
+  .readme-bar{
+    display:flex;align-items:center;gap:8px;padding:10px 16px;
+    border-bottom:1px solid var(--border);
+  }
+  .readme-bar span{width:9px;height:9px;border-radius:50%;background:var(--border);}
+  .readme-bar .fname{margin-left:8px;font-family:var(--mono);font-size:12px;color:var(--dim);}
+  .readme-body{padding:26px 28px;}
+  .readme-body p{color:var(--muted);font-size:15px;margin-bottom:16px;max-width:680px;}
+  .readme-body p:last-child{margin-bottom:0;}
+  .readme-body .hl{color:var(--text);}
+  .comment{font-family:var(--mono);color:var(--dim);font-size:13px;margin-bottom:6px;}
+
+  /* ---------- experience / log ---------- */
+  .job-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:6px;}
+  .job-title{font-size:18px;font-weight:700;color:var(--text);}
+  .job-meta{font-family:var(--mono);font-size:12px;color:var(--dim);}
+  .job-dates{font-family:var(--mono);font-size:12px;color:var(--amber);background:rgba(242,184,75,0.08);border:1px solid rgba(242,184,75,0.25);padding:4px 10px;border-radius:4px;}
+  .log{border-left:1px solid var(--border);margin-top:24px;padding-left:0;}
+  .log-line{
+    position:relative;padding:11px 0 11px 26px;font-size:14.5px;color:var(--muted);
+    border-bottom:1px dashed var(--border-soft);
+  }
+  .log-line:last-child{border-bottom:none;}
+  .log-line::before{
+    content:'›';position:absolute;left:0;top:11px;color:var(--mint);font-family:var(--mono);font-weight:700;
+  }
+  .log-line .k{color:var(--text);}
+
+  /* ---------- projects ---------- */
+  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media (max-width:820px){.proj-grid{grid-template-columns:1fr;}}
+  .proj-card{
+    border:1px solid var(--border);border-radius:6px;background:var(--panel);
+    display:flex;flex-direction:column;overflow:hidden;transition:border-color .15s, transform .15s;
+  }
+  .proj-card:hover{border-color:var(--mint-dim);transform:translateY(-2px);}
+  .proj-top{padding:20px 22px 0;}
+  .proj-status{font-family:var(--mono);font-size:10px;color:var(--mint);text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+  .proj-status .dot{width:5px;height:5px;}
+  .proj-title{font-size:17px;font-weight:700;margin-bottom:10px;color:var(--text);}
+  .proj-desc{font-size:13.5px;color:var(--muted);margin-bottom:16px;}
+  .stage-strip{display:flex;font-family:var(--mono);font-size:10px;color:var(--dim);gap:0;margin-bottom:16px;padding:0 22px;}
+  .stage{flex:1;text-align:center;padding-bottom:8px;border-bottom:2px solid var(--border);position:relative;}
+  .stage.on{color:var(--mint);border-bottom-color:var(--mint);}
+  .proj-list{padding:0 22px 18px;list-style:none;}
+  .proj-list li{font-size:13px;color:var(--muted);padding:6px 0 6px 16px;position:relative;border-bottom:1px dashed var(--border-soft);}
+  .proj-list li:last-child{border-bottom:none;}
+  .proj-list li::before{content:'·';position:absolute;left:0;color:var(--mint);font-weight:700;}
+  .proj-tags{display:flex;flex-wrap:wrap;gap:6px;padding:16px 22px;border-top:1px solid var(--border);}
+  .tag{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:var(--panel-2);border:1px solid var(--border);padding:4px 8px;border-radius:3px;}
+  .proj-foot{padding:16px 22px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+  .repo-link{font-family:var(--mono);font-size:12.5px;color:var(--mint);display:flex;align-items:center;gap:6px;}
+  .repo-link:hover{text-decoration:underline;}
+
+  /* ---------- skills ---------- */
+  .skill-groups{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:700px){.skill-groups{grid-template-columns:1fr;}}
+  .skill-group{border:1px solid var(--border);border-radius:6px;background:var(--panel);padding:18px 20px;}
+  .skill-cat{font-family:var(--mono);font-size:11.5px;color:var(--amber);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;}
+  .skill-tags{display:flex;flex-wrap:wrap;gap:7px;}
+  .skill-tag{font-size:12.5px;color:var(--text);background:var(--panel-2);border:1px solid var(--border);padding:5px 10px;border-radius:4px;}
+
+  /* ---------- education / certs ---------- */
+  .ed-cert-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;}
+  @media (max-width:700px){.ed-cert-grid{grid-template-columns:1fr;}}
+  .panel{border:1px solid var(--border);border-radius:6px;background:var(--panel);padding:20px 22px;}
+  .panel-label{font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;}
+  .ed-title{font-weight:700;font-size:15px;margin-bottom:4px;}
+  .ed-sub{font-size:13px;color:var(--muted);}
+  .cert-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--border-soft);}
+  .cert-row:last-child{border-bottom:none;}
+  .cert-badge{width:8px;height:8px;border-radius:2px;background:var(--mint);flex-shrink:0;}
+  .cert-name{font-size:13.5px;color:var(--text);}
+
+  /* ---------- contact / footer ---------- */
+  footer{padding:64px 0 48px;border-top:1px solid var(--border-soft);}
+  .contact-panel{
+    border:1px solid var(--border);border-radius:6px;background:var(--panel);
+    padding:36px 32px;text-align:center;
+  }
+  .contact-title{font-family:var(--mono);font-size:20px;font-weight:600;margin-bottom:10px;}
+  .contact-sub{color:var(--muted);font-size:14.5px;margin-bottom:26px;}
+  .contact-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+  .foot-bottom{margin-top:40px;text-align:center;font-family:var(--mono);font-size:11.5px;color:var(--dim);}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1;transform:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+    .reveal{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="prompt">manoj@devops:~$<span class="caret"></span></div>
+    <nav>
+      <a href="#about">about</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
+      <a href="#skills">skills</a>
+      <a href="#contact">contact</a>
+    </nav>
+    <div class="clock" id="clock"></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO / STATUS BOARD -->
+  <section class="hero" style="border-top:none;padding-top:64px;">
+    <div class="eyebrow"><span class="dot"></span> all systems operational</div>
+    <h1>Sambana Manoj Kumar</h1>
+    <p class="role-line">DevOps &amp; Cloud Engineer with <strong>2 years</strong> of experience building and operating infrastructure across <strong>AWS, Azure, and GCP</strong>, provisioning, deploying, and keeping production systems observable.</p>
+
+    <div class="pills">
+      <div class="pill"><span class="dot"></span>DevOps Engineer</div>
+      <div class="pill"><span class="dot"></span>Cloud Engineer</div>
+      <div class="pill"><span class="dot"></span>SRE</div>
+      <div class="pill"><span class="dot"></span>Platform Engineer</div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#contact">Get in touch →</a>
+      <a class="btn btn-ghost" href="Manoj_Kumar_Sambana_Resume.pdf" download>↓ Download Resume</a>
+      <a class="btn btn-ghost" href="https://github.com/manojsambana443" target="_blank" rel="noopener">View GitHub</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/manoj-kumar-sambana/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+
+    <div class="status-board reveal">
+      <div class="status-head">
+        <span>infra-status.yaml</span>
+        <span class="live"><span class="dot"></span>live · uptime <span id="uptime">00:00:00</span></span>
+      </div>
+      <div class="status-grid">
+        <div class="status-tile">
+          <div class="t-top"><span class="t-name">AWS</span><span class="t-status"><span class="dot"></span>operational</span></div>
+          <div class="t-desc">EC2, VPC, IAM, S3, RDS, EKS, ECR, provisioned via Terraform in production</div>
+        </div>
+        <div class="status-tile">
+          <div class="t-top"><span class="t-name">Azure</span><span class="t-status"><span class="dot"></span>operational</span></div>
+          <div class="t-desc">AKS, ACR, Functions, Monitor, deployed via Azure DevOps CI/CD</div>
+        </div>
+        <div class="status-tile">
+          <div class="t-top"><span class="t-name">GCP</span><span class="t-status"><span class="dot"></span>operational</span></div>
+          <div class="t-desc">Compute + networking provisioned with Terraform, configured via Ansible</div>
+        </div>
+        <div class="status-tile">
+          <div class="t-top"><span class="t-name">Kubernetes</span><span class="t-status"><span class="dot"></span>operational</span></div>
+          <div class="t-desc">Deployments, scaling, HPA, production workloads on EKS &amp; AKS</div>
+        </div>
+        <div class="status-tile">
+          <div class="t-top"><span class="t-name">CI/CD</span><span class="t-status"><span class="dot"></span>operational</span></div>
+          <div class="t-desc">Jenkins, GitHub Actions, Azure DevOps, ArgoCD, GitOps rollouts</div>
+        </div>
+        <div class="status-tile">
+          <div class="t-top"><span class="t-name">Monitoring</span><span class="t-status"><span class="dot"></span>operational</span></div>
+          <div class="t-desc">Prometheus, Grafana, CloudWatch, SLIs, SLOs &amp; MTTR tracked</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal">
+    <div class="sec-head"><span class="sec-tag">01</span><span class="sec-title">whoami</span></div>
+    <div class="readme">
+      <div class="readme-bar"><span></span><span></span><span></span><span class="fname">README.md</span></div>
+      <div class="readme-body">
+        <p class="comment"># about</p>
+        <p>I work as a <span class="hl">DevOps and Cloud Engineer</span>, currently at LTIMindtree, building and operating cloud infrastructure that keeps production systems stable and teams shipping without friction. Over the past two years I've worked hands-on across <span class="hl">AWS and Azure</span>, provisioning infrastructure with Terraform, running containerized workloads on Kubernetes, and building CI/CD pipelines that teams actually rely on day to day.</p>
+        <p class="comment"># reliability</p>
+        <p>A big part of the job has been keeping systems reliable, not just running. I set up monitoring and observability using Prometheus, Grafana, and CloudWatch, and have been steadily moving toward SRE practices such as defining SLIs and SLOs, tracking MTTR, and handling on-call rotations through PagerDuty with proper RCAs and runbooks.</p>
+        <p class="comment"># beyond the day job</p>
+        <p>I built a full Azure project (AKS, Terraform, Azure DevOps CI/CD, serverless processing, monitoring) to go deeper on Azure specifically, and a GCP project to get hands-on with Terraform and Ansible on Google Cloud. Both are linked below with the actual code, not just a description.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="reveal">
+    <div class="sec-head"><span class="sec-tag">02</span><span class="sec-title">experience.log</span></div>
+
+    <div class="job-head">
+      <div>
+        <div class="job-title">Cloud and Infrastructure Engineer</div>
+        <div class="job-meta">LTIMindtree</div>
+      </div>
+      <div class="job-dates">May 2022 → Jun 2024</div>
+    </div>
+
+    <div class="log">
+      <div class="log-line">Provisioned and maintained <span class="k">AWS infrastructure</span> for a microservices platform using Terraform (IaC), covering EC2, Auto Scaling, VPC, IAM, S3, and RDS, cutting environment setup time by about 50%.</div>
+      <div class="log-line">Administered <span class="k">Linux servers</span> supporting production workloads: patching, resource tuning, and performance optimization to keep services stable under load.</div>
+      <div class="log-line">Ran <span class="k">Docker-based containerized services</span> on Amazon EKS, handling deployments and scaling, with image builds moved to ECR.</div>
+      <div class="log-line">Built <span class="k">CI/CD pipelines</span> with Jenkins and GitHub Actions, managing Git-based branching workflows, later adopting ArgoCD for GitOps, which cut manual release work by around 40%.</div>
+      <div class="log-line">Configured <span class="k">Nginx and AWS load balancers</span>, set up DNS and SSL/TLS, and controlled access using Security Groups and firewall rules.</div>
+      <div class="log-line">Managed <span class="k">MySQL and RDS databases</span>, with some exposure to MongoDB, handling backups, recovery testing, and disaster recovery planning.</div>
+      <div class="log-line">Implemented <span class="k">monitoring and observability</span> using Prometheus, Grafana, and CloudWatch, configuring SNS-based alerts, defining SLIs and SLOs, and tracking MTTR.</div>
+      <div class="log-line">Used <span class="k">CloudTrail</span> for account-level audit tracking, took on-call rotations via PagerDuty, and documented RCAs and runbooks after incidents.</div>
+      <div class="log-line">Wrote <span class="k">Python and Bash scripts</span> to automate recurring ops tasks, working closely with development, QA, and security teams during releases.</div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="reveal">
+    <div class="sec-head"><span class="sec-tag">03</span><span class="sec-title">projects.deployed</span></div>
+
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-status"><span class="dot"></span>deployed</div>
+          <div class="proj-title">Azure AKS CI/CD Pipeline with Monitoring</div>
+          <div class="proj-desc">End-to-end pipeline deploying a containerized app to AKS, covering infra, build, deploy, and monitoring, all on free-tier Azure resources.</div>
+        </div>
+        <div class="stage-strip">
+          <div class="stage on">provision</div>
+          <div class="stage on">build</div>
+          <div class="stage on">deploy</div>
+          <div class="stage on">monitor</div>
+        </div>
+        <ul class="proj-list">
+          <li>VNet, AKS (B-series nodes), ACR, and Storage Account provisioned via Terraform</li>
+          <li>CI/CD pipeline in Azure DevOps to build, containerize, and deploy to AKS</li>
+          <li>Azure Function triggered by a storage queue for background job processing</li>
+          <li>Azure Monitor + Log Analytics with a CPU-based alert routed to an action group</li>
+          <li>Key Vault with managed identity, so no credentials were hardcoded anywhere</li>
+        </ul>
+        <div class="proj-tags">
+          <span class="tag">Terraform</span><span class="tag">AKS</span><span class="tag">Azure DevOps</span><span class="tag">ACR</span><span class="tag">Azure Functions</span><span class="tag">Key Vault</span>
+        </div>
+        <div class="proj-foot">
+          <a class="repo-link" href="https://github.com/manojsambana443/azure-platform-engineering-lab.git" target="_blank" rel="noopener">↗ view repo</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-status"><span class="dot"></span>deployed</div>
+          <div class="proj-title">Cloud Infrastructure Automation on GCP</div>
+          <div class="proj-desc">Infrastructure automation on Google Cloud, provisioning compute and configuring it end to end with Ansible.</div>
+        </div>
+        <div class="stage-strip">
+          <div class="stage on">provision</div>
+          <div class="stage on">configure</div>
+          <div class="stage on">validate</div>
+          <div class="stage">monitor</div>
+        </div>
+        <ul class="proj-list">
+          <li>Virtual machines and networking components provisioned using Terraform</li>
+          <li>Server configuration automated with Ansible playbooks</li>
+          <li>MySQL installed and configured for backend data storage</li>
+          <li>System health validated using Linux logs and basic service checks</li>
+        </ul>
+        <div class="proj-tags">
+          <span class="tag">Terraform</span><span class="tag">Ansible</span><span class="tag">GCP</span><span class="tag">MySQL</span><span class="tag">Linux</span>
+        </div>
+        <div class="proj-foot">
+          <a class="repo-link" href="https://github.com/manojsambana443/gcp-terraform-ansible-mysql.git" target="_blank" rel="noopener">↗ view repo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="reveal">
+    <div class="sec-head"><span class="sec-tag">04</span><span class="sec-title">skills.json</span></div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <div class="skill-cat">Cloud Platforms</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS</span><span class="skill-tag">Microsoft Azure</span><span class="skill-tag">Google Cloud Platform</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">IaC &amp; Automation</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Terraform</span><span class="skill-tag">Ansible</span><span class="skill-tag">Python</span><span class="skill-tag">Bash</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">Containers &amp; Orchestration</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">Helm</span><span class="skill-tag">ArgoCD</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">CI/CD</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Jenkins</span><span class="skill-tag">GitHub Actions</span><span class="skill-tag">Azure DevOps</span><span class="skill-tag">GitLab CI</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">Monitoring &amp; Observability</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Prometheus</span><span class="skill-tag">Grafana</span><span class="skill-tag">CloudWatch</span><span class="skill-tag">Azure Monitor</span><span class="skill-tag">Log Analytics</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">Networking &amp; Security</div>
+        <div class="skill-tags">
+          <span class="skill-tag">VPC</span><span class="skill-tag">Security Groups</span><span class="skill-tag">DNS</span><span class="skill-tag">SSL/TLS</span><span class="skill-tag">Nginx</span><span class="skill-tag">IAM</span><span class="skill-tag">Key Vault</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">Databases</div>
+        <div class="skill-tags">
+          <span class="skill-tag">MySQL</span><span class="skill-tag">AWS RDS</span><span class="skill-tag">MongoDB</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-cat">Version Control &amp; OS</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span class="skill-tag">JIRA</span><span class="skill-tag">Linux/Unix</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION / CERTS -->
+  <section class="reveal">
+    <div class="sec-head"><span class="sec-tag">05</span><span class="sec-title">education.yaml</span></div>
+    <div class="ed-cert-grid">
+      <div class="panel">
+        <div class="panel-label">Education</div>
+        <div class="ed-title">Lendi Institute of Engineering and Technology</div>
+        <div class="ed-sub">Bachelor of Technology in Mechanical Engineering, 2020</div>
+      </div>
+      <div class="panel">
+        <div class="panel-label">Certifications</div>
+        <div class="cert-row"><span class="cert-badge"></span><span class="cert-name">Microsoft Certified: Azure Administrator Associate (AZ-104)</span></div>
+        <div class="cert-row"><span class="cert-badge"></span><span class="cert-name">Microsoft Certified: Azure Fundamentals (AZ-900)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <footer id="contact" class="reveal">
+    <div class="sec-head"><span class="sec-tag">06</span><span class="sec-title">contact</span></div>
+    <div class="contact-panel">
+      <div class="contact-title">$ contact --reach-out</div>
+      <div class="contact-sub">Open to DevOps Engineer, Cloud Engineer, SRE, and Platform Engineer roles, based in Hyderabad, India.</div>
+      <div class="contact-links">
+        <a class="btn btn-primary" href="mailto:manojsambana443@gmail.com">Email me</a>
+        <a class="btn btn-ghost" href="Manoj_Kumar_Sambana_Resume.pdf" download>↓ Download Resume</a>
+        <a class="btn btn-ghost" href="tel:+917997643499">+91-7997643499</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/manoj-kumar-sambana/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/manojsambana443" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-ghost" href="https://www.scaler.com/academy/profile/84570c524673" target="_blank" rel="noopener">Scaler Profile</a>
+      </div>
+    </div>
+    <div class="foot-bottom">Sambana Manoj Kumar · built and deployed like everything else here</div>
+  </footer>
+
+</main>
+
+<script>
+  // session uptime ticker
+  const start = Date.now();
+  const upEl = document.getElementById('uptime');
+  function pad(n){return n.toString().padStart(2,'0');}
+  function tick(){
+    const diff = Math.floor((Date.now()-start)/1000);
+    const h = Math.floor(diff/3600), m = Math.floor((diff%3600)/60), s = diff%60;
+    upEl.textContent = pad(h)+':'+pad(m)+':'+pad(s);
+  }
+  setInterval(tick,1000); tick();
+
+  // IST clock in header
+  const clockEl = document.getElementById('clock');
+  function updateClock(){
+    const now = new Date();
+    const opts = { timeZone:'Asia/Kolkata', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false };
+    clockEl.textContent = now.toLocaleTimeString('en-IN', opts) + ' IST';
+  }
+  setInterval(updateClock,1000); updateClock();
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.12});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
